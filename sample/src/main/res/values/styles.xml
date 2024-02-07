@@ -7,9 +7,9 @@
     </style>
 
     <style name="ImagePickerTheme" parent="ef_BaseTheme">
-        <item name="colorPrimary">#607D8B</item>
-        <item name="colorPrimaryDark">#455A64</item>
-        <item name="colorAccent">@color/ef_colorAccent</item>
+        <item name="colorPrimary">#6700ff</item>
+        <item name="colorPrimaryDark">#5500D3</item>
+        <item name="colorAccent">#6700ff</item>
     </style>
 
     <style name="SampleSwitch">

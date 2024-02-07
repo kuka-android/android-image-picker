@@ -33,6 +33,9 @@ class Image(
             }
         }
 
+    @IgnoredOnParcel
+    val isVideo: Boolean get() = ImagePickerUtils.isVideoFormat(this)
+
     override fun equals(other: Any?): Boolean {
         return when {
             this === other -> true

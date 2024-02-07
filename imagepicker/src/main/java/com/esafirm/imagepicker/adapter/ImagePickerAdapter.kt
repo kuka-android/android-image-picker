@@ -7,12 +7,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
-import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.esafirm.imagepicker.R
 import com.esafirm.imagepicker.adapter.ImagePickerAdapter.ImageViewHolder
 import com.esafirm.imagepicker.databinding.EfImagepickerItemImageBinding
+import com.esafirm.imagepicker.features.ImagePickerConfig
 import com.esafirm.imagepicker.features.imageloader.ImageLoader
 import com.esafirm.imagepicker.features.imageloader.ImageType
 import com.esafirm.imagepicker.helper.ImagePickerUtils
@@ -25,7 +26,8 @@ class ImagePickerAdapter(
     context: Context,
     imageLoader: ImageLoader,
     selectedImages: List<Image>,
-    private val itemClickListener: OnImageClickListener
+    private val itemClickListener: OnImageClickListener,
+    private val config: ImagePickerConfig
 ) : BaseListAdapter<ImageViewHolder>(context, imageLoader) {
 
     private val listDiffer by lazy {
@@ -33,6 +35,7 @@ class ImagePickerAdapter(
     }
 
     val selectedImages: MutableList<Image> = mutableListOf()
+    val selectedVideos: List<Image> get() = selectedImages.filter { it.isVideo }
 
     private var imageSelectedListener: OnImageSelectedListener? = null
     private val videoDurationHolder = HashMap<Long, String?>()
@@ -82,9 +85,8 @@ class ImagePickerAdapter(
         viewHolder.apply {
             fileTypeIndicator.text = fileTypeLabel
             fileTypeIndicator.visibility = if (showFileTypeIndicator) View.VISIBLE else View.GONE
-            alphaView.alpha = if (isSelected) 0.5f else 0f
             itemView.setOnClickListener {
-                val shouldSelect = itemClickListener(isSelected)
+                val shouldSelect = itemClickListener(image, isSelected)
 
                 if (isSelected) {
                     removeSelectedImage(image, position)
@@ -92,10 +94,7 @@ class ImagePickerAdapter(
                     addSelected(image, position)
                 }
             }
-            container.foreground = if (isSelected) ContextCompat.getDrawable(
-                context,
-                R.drawable.ef_ic_done_white
-            ) else null
+            overlay.isVisible = isSelected
         }
     }
 
@@ -146,5 +145,6 @@ class ImagePickerAdapter(
         val alphaView = binding.viewAlpha
         val fileTypeIndicator = binding.efItemFileTypeIndicator
         val container = binding.root as FrameLayout
+        val overlay = binding.overlay
     }
 }

@@ -17,9 +17,6 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".CustomUIActivity"
-            android:theme="@style/ef_AppTheme" />
-        <activity
             android:name=".ImageViewerActivity"
             android:theme="@style/ef_AppTheme" />
 

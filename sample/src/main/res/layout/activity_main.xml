@@ -19,41 +19,6 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <androidx.appcompat.widget.SwitchCompat
-                android:id="@+id/switch_return_after_capture"
-                style="@style/SampleSwitch"
-                android:text="Return After First" />
-
-            <androidx.appcompat.widget.SwitchCompat
-                android:id="@+id/switch_folder_mode"
-                style="@style/SampleSwitch"
-                android:text="Folder Mode" />
-
-            <androidx.appcompat.widget.SwitchCompat
-                android:id="@+id/switch_include_video"
-                style="@style/SampleSwitch"
-                android:text="Include Video" />
-
-            <androidx.appcompat.widget.SwitchCompat
-                android:id="@+id/switch_only_video"
-                style="@style/SampleSwitch"
-                android:text="Only video" />
-
-            <androidx.appcompat.widget.SwitchCompat
-                android:id="@+id/switch_single"
-                style="@style/SampleSwitch"
-                android:text="Single Mode?" />
-
-            <androidx.appcompat.widget.SwitchCompat
-                android:id="@+id/switch_imageloader"
-                style="@style/SampleSwitch"
-                android:text="Custom Image Loader?   " />
-
-            <androidx.appcompat.widget.SwitchCompat
-                android:id="@+id/switch_include_exclude"
-                style="@style/SampleSwitch"
-                android:text="Exclude" />
-
             <TextView
                 android:id="@+id/text_view"
                 android:layout_width="wrap_content"
@@ -83,37 +48,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="PICK IMAGE" />
-
-            <Button
-                android:id="@+id/button_launch_fragment"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Launch Fragment" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_horizontal">
-
-            <Button
-                android:id="@+id/button_camera"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Camera" />
-
-            <Button
-                android:id="@+id/button_intent"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Intent" />
-
-            <Button
-                android:id="@+id/button_custom_ui"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Custom UI" />
 
         </LinearLayout>
 

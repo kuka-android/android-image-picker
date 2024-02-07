@@ -28,7 +28,10 @@ class ImagePickerConfig(
     override var savePath: ImagePickerSavePath = ImagePickerSavePath.DEFAULT,
     override var returnMode: ReturnMode = ReturnMode.NONE,
     override var isSaveImage: Boolean = true,
-    var showDoneButtonAlways: Boolean = false
+    var showDoneButtonAlways: Boolean = false,
+    var videoLimit: Int = IpCons.MAX_VIDEO_LIMIT,
+    var videoDurationLimit: Int = IpCons.VIDEO_DURATION_LIMIT,
+    var videoSizeLimit: Int = IpCons.VIDEO_SIZE_LIMIT,
 ) : BaseConfig(), Parcelable {
 
     @IgnoredOnParcel

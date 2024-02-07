@@ -15,6 +15,7 @@ import com.esafirm.imagepicker.helper.IpLogger.d
 import com.esafirm.imagepicker.model.Image
 import java.io.File
 import java.net.URLConnection
+import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.ArrayList
 import java.util.Date
@@ -117,13 +118,53 @@ object ImagePickerUtils {
             val second = duration / 1000 % 60
             val minute = duration / (1000 * 60) % 60
             val hour = duration / (1000 * 60 * 60) % 24
-            return if (hour > 0) {
-                String.format("%02d:%02d:%02d", hour, minute, second)
-            } else {
-                String.format("%02d:%02d", minute, second)
-            }
+
+            val durationText =
+                if (hour > 0)
+                    String.format("%02d:%02d:%02d", hour, minute, second)
+                else
+                    String.format("%02d:%02d", minute, second)
+
+            val sizeText = getVideoSizeInMB(context, uri)?.let {
+                " / ${DecimalFormat("#.#").format(it)} MB"
+            } ?: ""
+
+            return "$durationText$sizeText"
         } catch (e: Exception) {
             return DEFAULT_DURATION_LABEL
+        }
+    }
+
+    fun getVideoDuration(context: Context?, uri: Uri): Long? {
+        return try {
+            val retriever = MediaMetadataRetriever()
+            retriever.setDataSource(context, uri)
+            val durationData =
+                retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION)
+            retriever.release()
+
+            durationData?.toLongOrNull()
+        } catch (e: Exception) {
+            null
+        }
+    }
+
+    fun getVideoSizeInMB(context: Context?, uri: Uri): Double? {
+        try {
+            val retriever = MediaMetadataRetriever()
+            retriever.setDataSource(context, uri)
+            val durationData =
+                retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION)
+            val bitrateData =
+                retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_BITRATE)
+            retriever.release()
+
+            val bitrate = bitrateData?.toIntOrNull() ?: return null
+            val duration = durationData?.toLongOrNull() ?: return null
+
+            return (bitrate.toDouble() / 8 * duration / 1000 / 1000 / 1000)
+        } catch (e: Exception) {
+            return null
         }
     }
 

@@ -189,7 +189,8 @@ class ImagePickerFragment : Fragment() {
         config,
         resources.configuration.orientation
     ).apply {
-        val selectListener = { isSelected: Boolean -> selectImage(isSelected) }
+//        val selectListener = { isSelected: Boolean -> selectImage(isSelected) }
+        val selectListener = { image: Image, isSelected: Boolean -> selectImage(image, isSelected) }
         val folderClick = { bucket: Folder ->
             setImageAdapter(bucket.images)
             updateTitle()

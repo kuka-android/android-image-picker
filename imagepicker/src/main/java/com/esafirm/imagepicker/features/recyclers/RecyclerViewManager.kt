@@ -1,9 +1,9 @@
 package com.esafirm.imagepicker.features.recyclers
 
+import android.app.AlertDialog
 import android.content.Context
 import android.content.res.Configuration
 import android.os.Parcelable
-import android.widget.Toast
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.esafirm.imagepicker.R
@@ -15,6 +15,7 @@ import com.esafirm.imagepicker.features.ImagePickerMode
 import com.esafirm.imagepicker.features.IpCons
 import com.esafirm.imagepicker.features.ReturnMode
 import com.esafirm.imagepicker.helper.ConfigUtils
+import com.esafirm.imagepicker.helper.ImagePickerUtils
 import com.esafirm.imagepicker.listeners.OnFolderClickListener
 import com.esafirm.imagepicker.listeners.OnImageClickListener
 import com.esafirm.imagepicker.listeners.OnImageSelectedListener
@@ -83,7 +84,7 @@ class RecyclerViewManager(
         val imageLoader = ImagePickerComponentsHolder.imageLoader
         imageAdapter = ImagePickerAdapter(
             context, imageLoader, selectedImages
-                ?: emptyList(), onImageClick
+                ?: emptyList(), onImageClick, config
         )
         folderAdapter = FolderPickerAdapter(context, imageLoader) {
             foldersState = recyclerView.layoutManager?.onSaveInstanceState()
@@ -182,12 +183,13 @@ class RecyclerViewManager(
         imageAdapter.setImageSelectedListener(listener)
     }
 
-    fun selectImage(isSelected: Boolean): Boolean {
+    fun selectImage(image: Image, isSelected: Boolean): Boolean {
         if (config.mode == ImagePickerMode.MULTIPLE) {
-            if (imageAdapter.selectedImages.size >= config.limit && !isSelected) {
-                Toast.makeText(context, R.string.ef_msg_limit_images, Toast.LENGTH_SHORT).show()
-                return false
-            }
+            return if (imageAdapter.selectedImages.size >= config.limit && !isSelected) {
+                showDialog("Bir ürün için en fazla ${config.limit} görsel yüklenebilir. Eğer var olan bir görseli değiştirmek isterseniz, ilgili görsele dokunup sildikten sonra yükleyebilirsiniz.")
+                false
+            } else
+                checkImage(image)
         } else if (config.mode == ImagePickerMode.SINGLE) {
             if (imageAdapter.selectedImages.size > 0) {
                 imageAdapter.removeAllSelectedSingleClick()
@@ -196,9 +198,37 @@ class RecyclerViewManager(
         return true
     }
 
+    private fun checkImage(image: Image): Boolean {
+        return if (image.isVideo) {
+            val videoSize = (ImagePickerUtils.getVideoSizeInMB(context, image.uri) ?: 0.0)
+            val videoDuration = (ImagePickerUtils.getVideoDuration(context, image.uri) ?: 0L)
+            if (imageAdapter.selectedVideos.size >= config.videoLimit) {
+                showDialog("Bir ürün için en fazla ${config.videoLimit} video yüklenebilir. Eğer var olan bir videoyu değiştirmek isterseniz, ilgili videoya dokunup sildikten sonra yenisini yükleyebilirsiniz.")
+                return false
+            } else if (videoDuration > config.videoDurationLimit) {
+                showDialog("Videonun süresi en fazla 60 saniye olabilir.")
+                return false
+            } else if (videoSize > config.videoSizeLimit) {
+                showDialog("Videonun dosya boyutu en fazla 180 MB olabilir.")
+                return false
+            } else {
+                return true
+            }
+        } else true
+    }
+
+    private fun showDialog(message: String) {
+        AlertDialog.Builder(context)
+            .setTitle("Hata")
+            .setMessage(message)
+            .setPositiveButton("Tamam", null)
+            .setIcon(android.R.drawable.ic_dialog_alert)
+            .show()
+    }
+
     val isShowDoneButton: Boolean
         get() = (!isDisplayingFolderView
-            && (imageAdapter.selectedImages.isNotEmpty() || config.showDoneButtonAlways)
-            && config.returnMode !== ReturnMode.ALL && config.returnMode !== ReturnMode.GALLERY_ONLY)
+                && (imageAdapter.selectedImages.isNotEmpty() || config.showDoneButtonAlways)
+                && config.returnMode !== ReturnMode.ALL && config.returnMode !== ReturnMode.GALLERY_ONLY)
 
 }
