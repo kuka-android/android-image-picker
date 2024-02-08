@@ -51,7 +51,7 @@ class MainActivity : AppCompatActivity() {
             isShowCamera = true // show camera or not (true by default)
             savePath = ImagePickerSavePath("Camera") // captured image directory name ("Camera" folder by default)
             savePath = ImagePickerSavePath(Environment.getExternalStorageDirectory().path, isRelative = false) // can be a full path
-            selectedImagesForValidate = images
+            selectedImagePathList = images.map { it.path }
 
 //            mode = if (false) {
 //                ImagePickerMode.SINGLE

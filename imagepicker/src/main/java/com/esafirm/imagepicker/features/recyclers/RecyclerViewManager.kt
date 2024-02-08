@@ -202,7 +202,7 @@ class RecyclerViewManager(
         return when {
             image.isImage -> {
                 when {
-                    config.selectedImagesForValidate.find { it.path == image.path } != null -> {
+                    config.selectedImagePathList.find { it == image.path } != null -> {
                         showDialog(context.getString(R.string.ef_msg_reselect_image))
                         false
                     }
@@ -230,7 +230,7 @@ class RecyclerViewManager(
                         false
                     }
 
-                    config.selectedImagesForValidate.find { it.path == image.path } != null -> {
+                    config.selectedImagePathList.find { it == image.path } != null -> {
                         showDialog(context.getString(R.string.ef_msg_reselect_video))
                         false
                     }
