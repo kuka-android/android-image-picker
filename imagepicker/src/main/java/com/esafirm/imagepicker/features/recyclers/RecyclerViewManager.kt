@@ -84,7 +84,7 @@ class RecyclerViewManager(
         val imageLoader = ImagePickerComponentsHolder.imageLoader
         imageAdapter = ImagePickerAdapter(
             context, imageLoader, selectedImages
-                ?: emptyList(), onImageClick, config
+                ?: emptyList(), onImageClick
         )
         folderAdapter = FolderPickerAdapter(context, imageLoader) {
             foldersState = recyclerView.layoutManager?.onSaveInstanceState()
@@ -186,7 +186,7 @@ class RecyclerViewManager(
     fun selectImage(image: Image, isSelected: Boolean): Boolean {
         if (config.mode == ImagePickerMode.MULTIPLE) {
             return if (imageAdapter.selectedImages.size >= config.limit && !isSelected) {
-                showDialog("Bir ürün için en fazla ${config.limit} görsel yüklenebilir. Eğer var olan bir görseli değiştirmek isterseniz, ilgili görsele dokunup sildikten sonra yükleyebilirsiniz.")
+                showDialog(context.getString(R.string.ef_msg_limit_images))
                 false
             } else
                 checkImage(image)
@@ -199,29 +199,63 @@ class RecyclerViewManager(
     }
 
     private fun checkImage(image: Image): Boolean {
-        return if (image.isVideo) {
-            val videoSize = (ImagePickerUtils.getVideoSizeInMB(context, image.uri) ?: 0.0)
-            val videoDuration = (ImagePickerUtils.getVideoDuration(context, image.uri) ?: 0L)
-            if (imageAdapter.selectedVideos.size >= config.videoLimit) {
-                showDialog("Bir ürün için en fazla ${config.videoLimit} video yüklenebilir. Eğer var olan bir videoyu değiştirmek isterseniz, ilgili videoya dokunup sildikten sonra yenisini yükleyebilirsiniz.")
-                return false
-            } else if (videoDuration > config.videoDurationLimit) {
-                showDialog("Videonun süresi en fazla 60 saniye olabilir.")
-                return false
-            } else if (videoSize > config.videoSizeLimit) {
-                showDialog("Videonun dosya boyutu en fazla 180 MB olabilir.")
-                return false
-            } else {
-                return true
+        return when {
+            image.isImage -> {
+                when {
+                    config.selectedImagesForValidate.find { it.path == image.path } != null -> {
+                        showDialog(context.getString(R.string.ef_msg_reselect_image))
+                        false
+                    }
+
+                    else -> true
+                }
             }
-        } else true
+
+            image.isVideo -> {
+                val videoSize = (ImagePickerUtils.getVideoSizeInMB(context, image.uri) ?: 0.0)
+                val videoDuration = (ImagePickerUtils.getVideoDuration(context, image.uri) ?: 0L)
+                when {
+                    imageAdapter.selectedVideos.size >= config.videoLimit -> {
+                        showDialog(context.getString(R.string.ef_msg_limit_videos))
+                        false
+                    }
+
+                    videoDuration > config.videoDurationLimit -> {
+                        showDialog(context.getString(R.string.ef_msg_limit_video_duration))
+                        false
+                    }
+
+                    videoSize > config.videoSizeLimit -> {
+                        showDialog(context.getString(R.string.ef_msg_limit_video_size))
+                        false
+                    }
+
+                    config.selectedImagesForValidate.find { it.path == image.path } != null -> {
+                        showDialog(context.getString(R.string.ef_msg_reselect_video))
+                        false
+                    }
+
+                    else -> true
+                }
+            }
+
+            image.isGif -> {
+                showDialog(context.getString(R.string.ef_msg_not_allowed_gif_format))
+                false
+            }
+
+            else -> {
+                showDialog(context.getString(R.string.ef_msg_not_allowed_unknown_format))
+                false
+            }
+        }
     }
 
     private fun showDialog(message: String) {
         AlertDialog.Builder(context)
-            .setTitle("Hata")
+            .setTitle(context.getString(R.string.ef_msg_dialog_title_error))
             .setMessage(message)
-            .setPositiveButton("Tamam", null)
+            .setPositiveButton(context.getString(R.string.ef_msg_dialog_button_ok), null)
             .setIcon(android.R.drawable.ic_dialog_alert)
             .show()
     }

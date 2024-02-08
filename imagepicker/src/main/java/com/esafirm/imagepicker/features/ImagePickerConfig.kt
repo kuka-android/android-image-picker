@@ -24,6 +24,7 @@ class ImagePickerConfig(
     var isIncludeAnimation: Boolean = false,
     var isShowCamera: Boolean = true,
     var selectedImages: List<Image> = emptyList(),
+    var selectedImagesForValidate: List<Image> = emptyList(),
     var excludedImages: List<File> = emptyList(),
     override var savePath: ImagePickerSavePath = ImagePickerSavePath.DEFAULT,
     override var returnMode: ReturnMode = ReturnMode.NONE,

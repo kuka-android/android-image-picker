@@ -1,10 +1,11 @@
 <resources>
     <string name="app_name">Image Picker Sample</string>
 
+    <string name="ef_permission_write_external_rationale">Görüntüleri seçmek için harici depolama alanına erişime izin ver</string>
+
     <string name="ef_ok">TAMAM</string>
     <string name="ef_done">BİTTİ</string>
     <string name="ef_camera">KAMERA</string>
-    <string name="ef_permission_write_external_rationale">Görüntüleri seçmek için harici depolama alanına erişime izin ver</string>
 
     <string name="ef_title_folder">Klasör</string>
     <string name="ef_title_select_image">Resimleri seçmek için hafifçe dokunun</string>
@@ -20,5 +21,17 @@
     <string name="ef_msg_empty_images">Resimler bulunamadı</string>
     <string name="ef_msg_no_write_external_permission">Lütfen resim seçmek için depolama iznini verin</string>
     <string name="ef_msg_no_camera_permission">Resim çekmek için lütfen kamera iznini verin</string>
-    <string name="ef_msg_limit_images">Maksimum 5 fotoğraf seçebilirsiniz</string>
+
+    <string name="ef_msg_dialog_title_error">Hata</string>
+    <string name="ef_msg_dialog_button_ok">Tamam</string>
+    <string name="ef_msg_limit_images">Bir ürün için en fazla 5 görsel yüklenebilir. Eğer var olan bir görseli değiştirmek isterseniz, ilgili görsele dokunup sildikten sonra yükleyebilirsiniz.</string>
+    <string name="ef_msg_limit_videos">Bir ürün için en fazla 1 video yüklenebilir. Eğer var olan bir videoyu değiştirmek isterseniz, ilgili videoya dokunup sildikten sonra yenisini yükleyebilirsiniz.</string>
+    <string name="ef_msg_limit_video_duration">Videonun süresi en fazla 60 saniye olabilir.</string>
+    <string name="ef_msg_limit_video_size">Videonun dosya boyutu en fazla 180 MB olabilir.</string>
+    <string name="ef_msg_reselect_image">Bu resim daha önce seçildi. Aynı resim birden çok defa seçilemez.</string>
+    <string name="ef_msg_reselect_video">Bu video daha önce seçildi. Aynı video birden çok defa seçilemez.</string>
+    <string name="ef_msg_not_allowed_gif_format">Ürün görseli için GIF formatında görsel kullanılamaz</string>
+    <string name="ef_msg_not_allowed_unknown_format">Bilinmeyen format, bu görsel kullanılamaz.</string>
+
+
 </resources>

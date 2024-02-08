@@ -19,8 +19,18 @@
 
     <string name="ef_msg_empty_images">No images found</string>
     <string name="ef_msg_no_write_external_permission">Please grant storage permission to select images</string>
-    <string name="ef_msg_limit_images">Image selection limit</string>
     <string name="ef_msg_no_camera_permission">You have to give the app permission to use the camera to be able to take pictures</string>
+
+    <string name="ef_msg_dialog_title_error">Error</string>
+    <string name="ef_msg_dialog_button_ok">Error</string>
+    <string name="ef_msg_limit_images">Image selection limit</string>
+    <string name="ef_msg_limit_videos">Video selection limit</string>
+    <string name="ef_msg_limit_video_duration">Video duration limit</string>
+    <string name="ef_msg_limit_video_size">Video size limit</string>
+    <string name="ef_msg_reselect_image">This image selected before</string>
+    <string name="ef_msg_reselect_video">This video selected before</string>
+    <string name="ef_msg_not_allowed_gif_format">GIF format is not allowed</string>
+    <string name="ef_msg_not_allowed_unknown_format">Unknown format not allowed</string>
 
     <!--Don't Translate-->
     <string name="ef_gif" translatable="false">GIF</string>

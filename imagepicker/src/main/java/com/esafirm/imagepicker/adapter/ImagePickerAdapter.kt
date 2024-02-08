@@ -13,7 +13,6 @@ import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.esafirm.imagepicker.R
 import com.esafirm.imagepicker.adapter.ImagePickerAdapter.ImageViewHolder
 import com.esafirm.imagepicker.databinding.EfImagepickerItemImageBinding
-import com.esafirm.imagepicker.features.ImagePickerConfig
 import com.esafirm.imagepicker.features.imageloader.ImageLoader
 import com.esafirm.imagepicker.features.imageloader.ImageType
 import com.esafirm.imagepicker.helper.ImagePickerUtils
@@ -26,8 +25,7 @@ class ImagePickerAdapter(
     context: Context,
     imageLoader: ImageLoader,
     selectedImages: List<Image>,
-    private val itemClickListener: OnImageClickListener,
-    private val config: ImagePickerConfig
+    private val itemClickListener: OnImageClickListener
 ) : BaseListAdapter<ImageViewHolder>(context, imageLoader) {
 
     private val listDiffer by lazy {

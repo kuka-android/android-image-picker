@@ -7,7 +7,6 @@ import androidx.appcompat.app.AppCompatActivity
 import com.esafirm.imagepicker.features.ImagePickerConfig
 import com.esafirm.imagepicker.features.ImagePickerSavePath
 import com.esafirm.imagepicker.features.registerImagePicker
-import com.esafirm.imagepicker.features.toFiles
 import com.esafirm.imagepicker.model.Image
 import com.esafirm.sample.databinding.ActivityMainBinding
 
@@ -43,22 +42,16 @@ class MainActivity : AppCompatActivity() {
             theme = R.style.ImagePickerTheme
             isIncludeVideo = true // include video (false by default)
             isFolderMode = false // set folder mode (false by default)
-
             arrowColor = Color.WHITE // set toolbar arrow up color
             folderTitle = "Tümü" // folder selection title
             imageTitle = "Seçmek için tıklayın" // image selection title
             doneButtonText = "TAMAM" // done button text
             showDoneButtonAlways = false    // Show done button always or not
-            limit = 5 // max images can be selected (99 by default)
+            limit = 5 - images.size// max images can be selected (99 by default)
             isShowCamera = true // show camera or not (true by default)
             savePath = ImagePickerSavePath("Camera") // captured image directory name ("Camera" folder by default)
             savePath = ImagePickerSavePath(Environment.getExternalStorageDirectory().path, isRelative = false) // can be a full path
-
-            if (false) {
-                excludedImages = images.toFiles() // don't show anything on this selected images
-            } else {
-                selectedImages = images  // original selected images, used in multi mode
-            }
+            selectedImagesForValidate = images
 
 //            mode = if (false) {
 //                ImagePickerMode.SINGLE

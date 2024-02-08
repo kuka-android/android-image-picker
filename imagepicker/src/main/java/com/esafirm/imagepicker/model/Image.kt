@@ -34,7 +34,13 @@ class Image(
         }
 
     @IgnoredOnParcel
+    val isImage: Boolean get() = ImagePickerUtils.isImageFormat(this)
+
+    @IgnoredOnParcel
     val isVideo: Boolean get() = ImagePickerUtils.isVideoFormat(this)
+
+    @IgnoredOnParcel
+    val isGif: Boolean get() = ImagePickerUtils.isGifFormat(this)
 
     override fun equals(other: Any?): Boolean {
         return when {

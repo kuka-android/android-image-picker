@@ -88,13 +88,21 @@ object ImagePickerUtils {
         )
     }
 
+    fun isImageFormat(image: Image): Boolean {
+        val extension = getExtension(image.path)
+        val mimeType =
+            if (TextUtils.isEmpty(extension)) URLConnection.guessContentTypeFromName(image.path) else MimeTypeMap.getSingleton()
+                .getMimeTypeFromExtension(extension)
+        return mimeType != null && mimeType.startsWith("image")
+    }
+
     fun isGifFormat(image: Image): Boolean {
         return isGifFormat(image.path)
     }
 
     fun isGifFormat(path: String): Boolean {
         val extension = getExtension(path)
-        return extension.equals("gif", ignoreCase = true)
+        return extension.startsWith("gif")
     }
 
     fun isVideoFormat(image: Image): Boolean {
