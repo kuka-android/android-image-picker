@@ -22,7 +22,7 @@
     <string name="ef_msg_no_camera_permission">You have to give the app permission to use the camera to be able to take pictures</string>
 
     <string name="ef_msg_dialog_title_error">Error</string>
-    <string name="ef_msg_dialog_button_ok">Error</string>
+    <string name="ef_msg_dialog_button_ok">OK</string>
     <string name="ef_msg_limit_images">Image selection limit</string>
     <string name="ef_msg_limit_videos">Video selection limit</string>
     <string name="ef_msg_limit_video_duration">Video duration limit</string>

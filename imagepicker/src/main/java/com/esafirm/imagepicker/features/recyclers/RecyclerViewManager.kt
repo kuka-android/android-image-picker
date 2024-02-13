@@ -189,7 +189,7 @@ class RecyclerViewManager(
                 showDialog(context.getString(R.string.ef_msg_limit_images))
                 false
             } else
-                checkImage(image)
+                checkImage(image, isSelected)
         } else if (config.mode == ImagePickerMode.SINGLE) {
             if (imageAdapter.selectedImages.size > 0) {
                 imageAdapter.removeAllSelectedSingleClick()
@@ -198,7 +198,7 @@ class RecyclerViewManager(
         return true
     }
 
-    private fun checkImage(image: Image): Boolean {
+    private fun checkImage(image: Image, isSelected: Boolean): Boolean {
         return when {
             image.isImage -> {
                 when {
@@ -215,7 +215,7 @@ class RecyclerViewManager(
                 val videoSize = (ImagePickerUtils.getVideoSizeInMB(context, image.uri) ?: 0.0)
                 val videoDuration = (ImagePickerUtils.getVideoDuration(context, image.uri) ?: 0L)
                 when {
-                    imageAdapter.selectedVideos.size >= config.videoLimit -> {
+                    imageAdapter.selectedVideos.size >= config.videoLimit && !isSelected-> {
                         showDialog(context.getString(R.string.ef_msg_limit_videos))
                         false
                     }
