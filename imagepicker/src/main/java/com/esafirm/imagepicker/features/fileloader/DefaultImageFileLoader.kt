@@ -70,9 +70,6 @@ class DefaultImageFileLoader(private val context: Context) : ImageFileLoader {
 
         companion object {
             private const val DEFAULT_FOLDER_NAME = "SDCARD"
-            private const val FIRST_LIMIT = 1_000
-
-            private const val QUERY_LIMIT = "limit"
         }
 
         private val projection = arrayOf(
@@ -83,15 +80,8 @@ class DefaultImageFileLoader(private val context: Context) : ImageFileLoader {
         )
 
         @SuppressLint("InlinedApi")
-        private fun queryData(limit: Int? = null): Cursor? {
-            val useNewApi = Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q
-            val sourceUri = if (limit != null && useNewApi) {
-                getSourceUri().buildUpon()
-                    .appendQueryParameter(QUERY_LIMIT, limit.toString())
-                    .build()
-            } else {
-                getSourceUri()
-            }
+        private fun queryData(): Cursor? {
+            val sourceUri = getSourceUri()
 
             val type = MediaStore.Files.FileColumns.MEDIA_TYPE
 
@@ -102,34 +92,7 @@ class DefaultImageFileLoader(private val context: Context) : ImageFileLoader {
                 else -> ""
             }
 
-            if (useNewApi) {
-                val args = Bundle().apply {
-                    // Sort function
-                    putStringArray(
-                        ContentResolver.QUERY_ARG_SORT_COLUMNS,
-                        arrayOf(MediaStore.Files.FileColumns.DATE_MODIFIED)
-                    )
-                    putInt(
-                        ContentResolver.QUERY_ARG_SORT_DIRECTION,
-                        ContentResolver.QUERY_SORT_DIRECTION_DESCENDING
-                    )
-                    // Selection
-                    putString(
-                        ContentResolver.QUERY_ARG_SQL_SELECTION,
-                        selection
-                    )
-                    // Limit
-                    if (limit != null) {
-                        putInt(ContentResolver.QUERY_ARG_LIMIT, limit)
-                    }
-                }
-
-                return context.contentResolver.query(sourceUri, projection, args, null)
-            }
-
-            val sortOrder = "${MediaStore.Images.Media.DATE_MODIFIED} DESC".let {
-                if (limit != null) "$it LIMIT $limit" else it
-            }
+            val sortOrder = "${MediaStore.Images.Media.DATE_MODIFIED} DESC"
 
             return context.contentResolver.query(
                 sourceUri, projection,
@@ -205,14 +168,7 @@ class DefaultImageFileLoader(private val context: Context) : ImageFileLoader {
         }
 
         override fun run() {
-            // We're gonna load two times for faster load if the devices has many images
-            val cursor = queryData(FIRST_LIMIT)
-            val isLoadDataAgain = cursor?.count == FIRST_LIMIT
-            processData(cursor)
-
-            if (isLoadDataAgain) {
-                processData(queryData())
-            }
+            processData(queryData())
         }
     }
 
