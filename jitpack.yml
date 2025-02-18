@@ -1,2 +1,12 @@
+jdk:
+  - openjdk17
+
 before_install:
-           - ./setup.sh
+  - ./setup.sh
+
+install:
+  - ./gradlew :imagepicker:assembleRelease
+
+artifact: imagepicker/build/outputs/aar/imagepicker-release.aar
+
+

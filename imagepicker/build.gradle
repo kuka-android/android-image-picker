@@ -1,7 +1,10 @@
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
 plugins {
     id "com.android.library"
     id "kotlin-android"
     id "kotlin-parcelize"
+    id "maven-publish"
 }
 
 android {
@@ -44,9 +47,28 @@ android {
     namespace 'com.esafirm.imagepicker'
 }
 
+afterEvaluate {
+    publishing {
+        publications {
+            release(MavenPublication) {
+                from components.release
+                groupId = 'com.github.kuka-android'
+                artifactId = 'imagepicker'
+                version = '1.0.7'
+            }
+        }
+    }
+}
+
 tasks.register("sourcesJar", Jar) {
     from android.sourceSets.main.java.srcDirs
     archiveClassifier.set('sources')
+}
+
+tasks.withType(KotlinCompile).configureEach {
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
 }
 
 artifacts {
@@ -54,10 +76,10 @@ artifacts {
 }
 
 dependencies {
-    implementation "com.github.bumptech.glide:glide:4.14.2"
-    implementation 'androidx.recyclerview:recyclerview:1.2.1'
+    implementation "com.github.bumptech.glide:glide:4.16.0"
+    implementation 'androidx.recyclerview:recyclerview:1.4.0'
 
-    implementation 'androidx.appcompat:appcompat:1.5.1'
+    implementation 'androidx.appcompat:appcompat:1.7.0'
 
     implementation "androidx.core:core-ktx:$core_ktx_version"
 
