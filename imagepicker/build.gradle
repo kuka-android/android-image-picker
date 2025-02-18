@@ -53,14 +53,16 @@ android {
     namespace 'com.esafirm.imagepicker'
 }
 
-afterEvaluate {
-    publishing {
-        publications {
-            release(MavenPublication) {
+
+publishing {
+    publications {
+        release(MavenPublication) {
+            groupId = 'com.github.kuka-android'
+            artifactId = 'imagepicker'
+            version = '1.0.10'
+
+            afterEvaluate {
                 from components.release
-                groupId = 'com.github.kuka-android'
-                artifactId = 'imagepicker'
-                version = '1.0.9'
             }
         }
     }
