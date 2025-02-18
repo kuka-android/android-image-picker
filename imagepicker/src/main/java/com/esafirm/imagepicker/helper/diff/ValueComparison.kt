@@ -16,10 +16,10 @@ class SimpleDiffUtilCallBack<T>(
 ) : DiffUtil.ItemCallback<T>() {
 
     override fun areItemsTheSame(oldItem: T & Any, newItem: T & Any): Boolean {
-        return areContentsTheSame(oldItem,newItem)
+        return areItemTheSame(oldItem, newItem)
     }
 
     override fun areContentsTheSame(oldItem: T & Any, newItem: T & Any): Boolean {
-        return areContentsTheSame(oldItem,newItem)
+        return areContentTheSame(oldItem, newItem)
     }
 }
