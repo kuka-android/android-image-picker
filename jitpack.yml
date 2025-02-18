@@ -7,4 +7,6 @@ before_install:
 install:
   - ./gradlew :imagepicker:assembleRelease
 
+artifact: imagepicker/build/outputs/aar/imagepicker-release.aar
+
 
