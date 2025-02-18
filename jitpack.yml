@@ -1,6 +1,10 @@
 jdk:
   - openjdk17
+
+before_install:
+  - ./setup.sh
+
 install:
-  - ./gradlew clean build
+  - ./gradlew :imagepicker:assembleRelease
 
 
