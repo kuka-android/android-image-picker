@@ -8,7 +8,7 @@
     </item>
     <item
         android:bottom="4dp"
-        android:drawable="@drawable/ic_check"
+        android:drawable="@drawable/ef_ic_check_2"
         android:left="4dp"
         android:right="4dp"
         android:top="4dp" />
