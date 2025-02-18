@@ -7,11 +7,15 @@ import android.graphics.PorterDuff
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
 import com.esafirm.imagepicker.R
 import com.esafirm.imagepicker.features.cameraonly.CameraOnlyConfig
 import com.esafirm.imagepicker.helper.ConfigUtils
@@ -61,6 +65,7 @@ class ImagePickerActivity : AppCompatActivity(), ImagePickerInteractionListener 
     }
 
     public override fun onCreate(savedInstanceState: Bundle?) {
+        WindowCompat.setDecorFitsSystemWindows(window, false)
         super.onCreate(savedInstanceState)
         setResult(RESULT_CANCELED)
 
@@ -79,6 +84,7 @@ class ImagePickerActivity : AppCompatActivity(), ImagePickerInteractionListener 
         val currentConfig = config!!
         setTheme(currentConfig.theme)
         setContentView(R.layout.ef_activity_image_picker)
+        setSystemBarsPadding()
         setupView(currentConfig)
 
         if (savedInstanceState != null) {
@@ -178,5 +184,19 @@ class ImagePickerActivity : AppCompatActivity(), ImagePickerInteractionListener 
     override fun finishPickImages(result: Intent?) {
         setResult(RESULT_OK, result)
         finish()
+    }
+
+    private fun setSystemBarsPadding() {
+        val root = findViewById<View>(R.id.main)
+        ViewCompat.setOnApplyWindowInsetsListener(root) { view, insets ->
+            val systemBarsInsets = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            view.setPadding(
+                systemBarsInsets.left,
+                systemBarsInsets.top,
+                systemBarsInsets.right,
+                systemBarsInsets.bottom
+            )
+            WindowInsetsCompat.CONSUMED
+        }
     }
 }
