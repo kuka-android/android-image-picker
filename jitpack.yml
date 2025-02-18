@@ -1,2 +1,10 @@
+jdk:
+  - openjdk11
+
 before_install:
-           - ./setup.sh
+  - ./setup.sh
+
+install:
+  - ./gradlew clean build
+
+
