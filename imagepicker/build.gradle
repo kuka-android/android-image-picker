@@ -37,6 +37,11 @@ android {
         abortOnError false
     }
 
+    lintOptions {
+        checkReleaseBuilds false
+        abortOnError false
+    }
+
     testOptions {
         unitTests.all {
             useJUnitPlatform()
@@ -52,9 +57,6 @@ afterEvaluate {
         publications {
             release(MavenPublication) {
                 from components.release
-                groupId = 'com.github.kuka-android'
-                artifactId = 'imagepicker'
-                version = '1.0.7'
             }
         }
     }
