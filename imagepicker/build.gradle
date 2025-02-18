@@ -7,6 +7,12 @@ plugins {
     id "maven-publish"
 }
 
+repositories {
+    google()
+    mavenCentral()
+    maven { url "https://jitpack.io" }
+}
+
 android {
     final sdk = rootProject.ext.sdk
 
@@ -29,8 +35,8 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
     }
 
     lint {
@@ -54,15 +60,33 @@ android {
 }
 
 
-publishing {
-    publications {
-        release(MavenPublication) {
-            groupId = 'com.github.kuka-android'
-            artifactId = 'imagepicker'
-            version = '1.0.10'
 
-            afterEvaluate {
+group = 'com.github.kuka-android'
+version = '1.0.10'
+
+afterEvaluate {
+    publishing {
+        publications {
+            release(MavenPublication) {
+                artifactId = 'imagepicker'
                 from components.release
+
+                pom {
+                    name.set("ImagePicker")
+                    description.set("Güzel bir image picker kütüphanesi")
+                    url.set("https://github.com/kuka-android/imagepicker")
+                    licenses {
+                        license {
+                            name.set("Apache License, Version 2.0")
+                            url.set("http://www.apache.org/licenses/LICENSE-2.0.txt")
+                        }
+                    }
+                    scm {
+                        connection.set("scm:git:git://github.com/kuka-android/imagepicker.git")
+                        developerConnection.set("scm:git:ssh://github.com:kuka-android/imagepicker.git")
+                        url.set("https://github.com/kuka-android/imagepicker")
+                    }
+                }
             }
         }
     }
@@ -75,7 +99,7 @@ tasks.register("sourcesJar", Jar) {
 
 tasks.withType(KotlinCompile).configureEach {
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = "11"
     }
 }
 
