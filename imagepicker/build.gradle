@@ -40,6 +40,10 @@ android {
         }
     }
 
+    lint {
+        baseline = file("lint-baseline.xml")
+    }
+
     resourcePrefix "ef_"
     namespace 'com.esafirm.imagepicker'
 }
