@@ -67,6 +67,7 @@ class ImagePickerActivity : AppCompatActivity(), ImagePickerInteractionListener 
     public override fun onCreate(savedInstanceState: Bundle?) {
         WindowCompat.setDecorFitsSystemWindows(window, false)
         super.onCreate(savedInstanceState)
+        intent.extras?.classLoader = ImagePickerConfig::class.java.classLoader
         setResult(RESULT_CANCELED)
 
         /* This should not happen */
